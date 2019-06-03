@@ -1,0 +1,21 @@
+.filter-button {
+  border: 2px solid black;
+  background: white;
+  font-size: 20px;
+  padding: 5px;
+  border-radius: 5px;
+  height: 40px;
+  width: 100%;
+}
+
+.filter-button:focus {
+  outline: none;
+}
+
+.filter-button__inactive {
+  opacity: 0.5;
+}
+
+.filter-button__active {
+  opacity: 1;
+}

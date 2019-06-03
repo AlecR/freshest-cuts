@@ -1,0 +1,80 @@
+.barbershop-box__wrapper {
+  height: 400px;
+  width: 450px;
+  margin: 20px auto;
+  cursor: pointer;
+}
+
+.barbershop-box__content-wrapper {
+  width: 100%;
+  height: 40%;
+  z-index: 0;
+  position: relative;
+  padding-top: 10px;
+}
+
+.barbershop-box__image-wrapper {
+  display: block;
+  height: 60%;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  border-radius: 10px;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.barbershop-box__image {
+  z-index: -10;
+}
+
+.barbershop-box__content-top-section {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.barbershop-box__name {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 0;
+  height: 100%;
+}
+
+.barbershop-box__price-level-wrapper {
+  margin: center;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: right;
+  line-height: 29px;
+  font-size: 20px;
+  height: 100%;
+
+}
+
+.barbershop-box__price-level {
+  margin: auto;
+  font-weight: bold;
+}
+
+.barbershop-box__price-level--active {
+  opacity: 1;
+}
+
+.barbershop-box__price-level--inactive {
+  opacity: 0.3;
+}
+
+.barbershop-box__location {
+  font-weight: lighter;
+  margin: 5px 0 0 0;
+}
+
+.barbershop-box__travel-distance {
+  margin: 5px 0 0 0;
+}
+
+.barbershop-box__hours {
+  margin: 5px 0;
+}

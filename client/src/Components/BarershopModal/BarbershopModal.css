@@ -1,0 +1,99 @@
+.barbershop-modal__top-section {
+  display: flex;
+  align-items: center;
+}
+
+.barbershop-modal__name {
+  font-size: 25px;
+  margin: 0;
+}
+
+.barbershop-modal__content-section {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  overflow: hidden;
+  
+}
+
+.barbershop-modal__left-side {
+  position: relative;
+  display: grid;
+  height: 450px;
+  grid-template-rows: 6fr 1fr;
+}
+
+.barbershop-modal__left-side-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.barbershop-modal__footer-button-wrapper {
+  margin: 1px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.barbershop-modal__footer-button {
+  border: 1px solid black;
+  color: black;
+  padding: 5px;
+  width: 200px;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  text-decoration: none;
+  margin: auto;
+  vertical-align: center;
+}
+
+.barbershop-modal__footer-button:visited {
+  color: black;
+}
+
+.barbershop-modal__image-wrapper {
+  display: block;
+  max-height: 100%;
+  max-width: 100%;
+  margin: auto;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  
+}
+
+.barbershop-modal__image {
+  overflow: hidden;
+  height: auto;
+  width: 100%;
+}
+
+.barbershop-modal__right-side {
+  display: block;
+  padding: 10px;
+  overflow: scroll;
+}
+
+.barbershop-modal__hours-table {
+  margin: auto;
+  width: 90%;
+}
+
+.barbershop-modal__hours-table-hours {
+  text-align: right;
+}
+
+.barbershop-modal__services-table {
+  margin: auto;
+  width: 90%;
+}
+
+.barbershop-modal__services-table-price {
+  text-align: right;
+}
+
+.barbershop-modal__table-title {
+  font-weight: bold;
+}
