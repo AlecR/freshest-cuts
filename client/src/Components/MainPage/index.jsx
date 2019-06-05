@@ -16,6 +16,7 @@ class MainPage extends Component {
     ONLINE_SCHEDULING: 'onlineScheduling',
     OPEN_TODAY: 'openToday',
     PRICE_LEVEL: 'priceLevel',
+    TRAVEL_DISTANCE: 'travelDistance',
   }
 
   filterType = {
@@ -26,6 +27,7 @@ class MainPage extends Component {
   state = {
     barbershops: [],
     selectedBarbershop: null,
+    loadedBarbershops: false,
     filtering: false,
     searchBarInput: '',
     filters: { 
@@ -33,6 +35,7 @@ class MainPage extends Component {
       onlineScheduling: false,
       openToday: false,
       priceLevel: null,
+      travelDistance: null,
     }
   }
 
@@ -54,21 +57,41 @@ class MainPage extends Component {
     },
     {
       type: this.filterType.SWITCH,
+      title: '💵 Price Level',
       options: [
         {
-          text: '💵',
+          text: '$',
           value: 0,
         },
         {
-          text: '💵💵',
+          text: '$$',
           value: 1,
         },
         {
-          text: '💵💵💵',
+          text: '$$$',
           value: 2,
         },
       ],
       filterPropertyName: this.filters.PRICE_LEVEL
+    },
+    {
+      type: this.filterType.SWITCH,
+      title: '🚗 Travel Distance',
+      options: [
+        {
+          text: '1 Mile',
+          value: 1,
+        },
+        {
+          text: '3 Miles',
+          value: 3,
+        },
+        {
+          text: '5 Miles',
+          value: 5
+        },
+      ],
+      filterPropertyName: this.filters.TRAVEL_DISTANCE
     }
   ]
 
@@ -100,6 +123,13 @@ class MainPage extends Component {
                 return barbershop.priceLevel === filteringPriceLevel
               })
               break
+            case this.filters.TRAVEL_DISTANCE:
+              const maxDistance = this.state.filters.travelDistance
+              barbershops = barbershops.filter(barbershop => {
+                console.log(barbershop)
+                return barbershop.travelDistance <= maxDistance
+              })
+              break
           default : break
         }
       }
@@ -128,6 +158,7 @@ class MainPage extends Component {
       this.setState(prevState => ({
         ...prevState,
         barbershops,
+        loadedBarbershops: true,
       }), this.calculateDistancesForBarbershops())
     })
   }
@@ -199,6 +230,7 @@ class MainPage extends Component {
   }
 
   render() {
+    const filteredBarbershops = this.filterBarbershops()
     return (
       <div className="main-page__wrapper">
         <section className='main-page__header'>
@@ -234,7 +266,7 @@ class MainPage extends Component {
                   <FilterSwitch 
                     key={`filter-switch-${index}`}
                     filterType={buttonData.filterPropertyName}
-                    activeOptionValue={this.state.filters.priceLevel}
+                    activeOptionValue={this.state.filters[buttonData.filterPropertyName]}
                     onOptionSelect={this.setSwitchFilterValue}
                     options={buttonData.options}
                   />
@@ -250,14 +282,26 @@ class MainPage extends Component {
             })}
           </div>
           <div className='main-page__barbershop-boxes-wrapper'>
-            {this.state.barbershops.length > 0 ? (
-              this.filterBarbershops().map((barbershop, index) => (
-                <BarbershopBox 
-                  key={`barbershop-${index}`}
-                  data={barbershop}
-                  didClickBarbershopBox={this.didSelectBarbershop}
-                />
-              ))) : (null)}
+            {this.state.loadedBarbershops ? (
+              filteredBarbershops.length > 0 ? (
+                filteredBarbershops.map((barbershop, index) => (
+                  <BarbershopBox 
+                    key={`barbershop-${index}`}
+                    data={barbershop}
+                    didClickBarbershopBox={this.didSelectBarbershop}
+                  />
+                ))) : (
+                  <div className='main-page__loading-indicator'>
+                    <p className='main-page__loading-indicator-icon'>🤷🏼‍♂️</p>
+                    <p className='main-page__loading-indicator-text'>No barbershops match your search</p>
+                  </div>
+                )
+            ) : (
+              <div className='main-page__loading-indicator'>
+                <p className='main-page__loading-indicator-icon'>💈</p>
+                <p className='main-page__loading-indicator-text'>Loading Barbershops...</p>
+              </div>
+            )}
           </div>
           {this.state.selectedBarbershop ? (
             <BarbershopModal 

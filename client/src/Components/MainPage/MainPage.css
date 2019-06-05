@@ -42,17 +42,44 @@
   overflow-y: hidden;
 }
 
-.main-page__filter-button {
-  border: 1px solid gray;
-  background: white;
-  font-size: 20px;
-  margin: 5px;
-  padding: 5px;
-  border-radius: 5px;
+.main-page__loading-indicator {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  grid-column: -1 / 1; 
 }
 
-.main-page__filter-button:focus {
-  outline: none;
+.main-page__loading-indicator-icon {
+  text-align: center;
+  margin: 0;
+  font-size: 100px;
+}
+
+.main-page__loading-indicator-text {
+  margin: 0;
+  text-align: center;
+  font-size: 40px;
+}
+
+.main-page__no-results-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  grid-column: -1 / 1; 
+}
+
+.main-page__no-results-icon {
+  text-align: center;
+  margin: 0;
+  font-size: 100px;
+}
+
+.main-page__no-results-text {
+  margin: 0;
+  text-align: center;
+  font-size: 40px;
 }
 
 .main-page__barbershop-boxes-wrapper {
@@ -75,3 +102,13 @@
   margin: 5px auto;
   width: 90%;
 }
+
+/** MEDIA QUERIES **/
+
+/* min: 576px	min: 768px	min: 992px	min: 1200px */
+
+ @media only screen and (max-width: 1200px) {
+  .main-page__barbershop-boxes-wrapper {
+    grid-template-columns: 1fr;
+  }
+ }

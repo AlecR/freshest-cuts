@@ -24,7 +24,7 @@ const BarbershopModal = props => {
   }
 
   let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-  console.log(props.barbershop)
+
   return (
     <Modal
       isOpen={props.isOpen}
