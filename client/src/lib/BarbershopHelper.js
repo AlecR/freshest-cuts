@@ -12,6 +12,7 @@ const getBarbershops = callback => {
         id: barbershop.id,
         name: barbershop.name,
         address: barbershop.address,
+        phoneNumber: barbershop.phone_number,
         websiteAddress: barbershop.website_address,
         appointmentSchedulingAddress: barbershop.appointment_scheduling_address,
         cashOnly: barbershop.cash_only,

@@ -66,6 +66,10 @@
   opacity: 0.3;
 }
 
+.barbershop-box__phone-number {
+  margin: 5px 0 0 0;
+}
+
 .barbershop-box__location {
   font-weight: lighter;
   margin: 5px 0 0 0;

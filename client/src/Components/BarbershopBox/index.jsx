@@ -3,7 +3,7 @@ import './BarbershopBox.css'
 import Image from '../Image'
 import TimeHelper from '../../lib/TimeHelper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCar } from '@fortawesome/free-solid-svg-icons'
+import { faCar, faPhone } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
 
 const BarbershopBox = props => {
@@ -18,6 +18,11 @@ const BarbershopBox = props => {
     } else {
       return `Open ${openTime} - ${closeTime}`
     }
+  }
+
+  let phoneNumber = null
+  if (props.data.phoneNumber) {
+    phoneNumber =  props.data.phoneNumber.substr(0,3) + '-' + props.data.phoneNumber.substr(3,3) + '-' +  props.data.phoneNumber.substr(6,4)
   }
 
   const dollarSignsForPriceLevel = () => {
@@ -60,6 +65,9 @@ const BarbershopBox = props => {
           {dollarSignsForPriceLevel()}
         </div>
         <p className='barbershop-box__location'>{props.data.address}</p>
+        {phoneNumber !== null ? (
+          <p className='barbershop-box__phone-number'><FontAwesomeIcon icon={faPhone} /> {phoneNumber}</p>
+        ) : null}
         {props.data.travelTime ? (
           <p className='barbershop-box__travel-distance'><FontAwesomeIcon icon={faCar} /> {props.data.travelDistance} miles away</p>
         ) : null}

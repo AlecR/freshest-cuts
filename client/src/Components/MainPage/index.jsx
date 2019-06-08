@@ -6,7 +6,7 @@ import BarbershopHelper from '../../lib/BarbershopHelper'
 import FilterButton from '../FilterButton'
 import FilterSwitch from '../FilterSwitch'
 import Fuse from 'fuse.js'
-import { ButtonGroup, FormControl, Form, Navbar } from 'react-bootstrap'
+import { ButtonGroup, Button, FormControl, Form, Navbar } from 'react-bootstrap'
 
 class MainPage extends Component {
 
@@ -232,8 +232,11 @@ class MainPage extends Component {
     const filteredBarbershops = this.filterBarbershops()
     return (
       <div className="main-page__wrapper">
-        <Navbar className='main-page__header'>
+        <Navbar className='main-page__header justify-content-between'>
           <Navbar.Brand>💈 Freshest Cuts</Navbar.Brand>
+          <Form inline>
+            <Button variant="outline-primary">Contact Us</Button>
+          </Form>
         </Navbar>
         <section className='main-page__search'>
           <Form className='main-page__search-bar-wrapper'>
