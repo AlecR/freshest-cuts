@@ -291,9 +291,9 @@ class MainPage extends Component {
                     didClickBarbershopBox={this.didSelectBarbershop}
                   />
                 ))) : (
-                  <div className='main-page__loading-indicator'>
-                    <p className='main-page__loading-indicator-icon'>🤷🏼‍♂️</p>
-                    <p className='main-page__loading-indicator-text'>No barbershops match your search</p>
+                  <div className='main-page__no-results-wrapper'>
+                    <p className='main-page__no-results-icon'>🤷🏼‍♂️</p>
+                    <p className='main-page__no-results-text'>No barbershops match your search</p>
                   </div>
                 )
             ) : (
