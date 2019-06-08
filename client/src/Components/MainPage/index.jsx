@@ -5,9 +5,8 @@ import BarbershopModal from '../BarershopModal'
 import BarbershopHelper from '../../lib/BarbershopHelper'
 import FilterButton from '../FilterButton'
 import FilterSwitch from '../FilterSwitch'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import Fuse from 'fuse.js'
+import { ButtonGroup, FormControl, Form, Navbar } from 'react-bootstrap'
 
 class MainPage extends Component {
 
@@ -79,15 +78,15 @@ class MainPage extends Component {
       title: '🚗 Travel Distance',
       options: [
         {
-          text: '1 Mile',
+          text: '1 Mi.',
           value: 1,
         },
         {
-          text: '3 Miles',
+          text: '3 Mi.',
           value: 3,
         },
         {
-          text: '5 Miles',
+          text: '5 Mi.',
           value: 5
         },
       ],
@@ -233,23 +232,27 @@ class MainPage extends Component {
     const filteredBarbershops = this.filterBarbershops()
     return (
       <div className="main-page__wrapper">
-        <section className='main-page__header'>
-          <h1>💈 Freshest Cuts</h1>
-        </section>
+        <Navbar className='main-page__header'>
+          <Navbar.Brand>💈 Freshest Cuts</Navbar.Brand>
+        </Navbar>
         <section className='main-page__search'>
-          <div className='main-page__search-bar-wrapper'>
-            <FontAwesomeIcon className='main-page__search-icon' icon={faSearch} />
-            <input 
+          <Form className='main-page__search-bar-wrapper'>
+            <FormControl 
               type='text'
               className='main-page__search-bar'
+              placeholder='Search'
               value={this.state.searchBarInput} 
               onChange={e => this.handleSearchBarChange(e)}
             />
-          </div>
+          </Form>
         </section>
         <section className='main-page__content'>
           <div className='main-page__sidebar'>
             <p className='main-page__sidebar-title'>Filter Barbershops</p>
+            <ButtonGroup 
+              vertical
+              className='main-page__filter-button-group'
+            >
             {this.filterButtonData.map((buttonData, index) => {
               let filterItem = null
               switch (buttonData.type) {
@@ -280,6 +283,7 @@ class MainPage extends Component {
                 </div>
               )
             })}
+            </ButtonGroup>
           </div>
           <div className='main-page__barbershop-boxes-wrapper'>
             {this.state.loadedBarbershops ? (

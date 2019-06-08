@@ -1,15 +1,12 @@
 .filter-button {
-  border: 2px solid black;
-  background: white;
+  border: 2px solid black !important;
   font-size: 20px;
-  padding: 5px;
   border-radius: 5px;
-  height: 40px;
   width: 100%;
 }
 
 .filter-button:focus {
-  outline: none;
+  outline: none !important;
 }
 
 .filter-button__inactive {

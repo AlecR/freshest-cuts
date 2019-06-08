@@ -3,6 +3,7 @@ import './BarbershopModal.css';
 import Modal from 'react-modal'
 import Image from '../Image'
 import TimeHelper from '../../lib/TimeHelper'
+import { Button, Table } from 'react-bootstrap';
 
 const BarbershopModal = props => {
   const customStyles = {
@@ -19,7 +20,7 @@ const BarbershopModal = props => {
       overflow: 'none',
       display: 'grid',
       gridTemplateRows: '50px auto',
-      padding: '10px',
+      padding: '0 10px',
     }
   }
 
@@ -39,6 +40,7 @@ const BarbershopModal = props => {
           <div className='barbershop-modal__image-wrapper'>
             <Image 
               className='barbershop-modal__image' 
+              fluid
               src={`./assets/${props.barbershop.id}.jpg`}
               alt={`${props.barbershop.name}`} 
               backupSrc={'./assets/freshest-cuts-logo.png'}
@@ -47,29 +49,29 @@ const BarbershopModal = props => {
           <div className='barbershop-modal__left-side-footer'>
             <div className='barbershop-modal__footer-button-wrapper'>
             {props.barbershop.websiteAddress ? (
-              <a 
+              <Button 
                 className='barbershop-modal__footer-button'
                 href={props.barbershop.websiteAddress}
                 target='_blank'
                 rel='noopener noreferrer'
-              >Website</a>
+              >Website</Button>
             ) : (null)}
             </div>
             <div className='barbershop-modal__footer-button-wrapper'>
             {props.barbershop.appointmentSchedulingAddress ? (
-              <a 
+              <Button 
                 className='barbershop-modal__footer-button'
                 href={props.barbershop.appointmentSchedulingAddress}
                 target='_blank'
                 rel='noopener noreferrer'
-              >Schedule an Appointment</a>
+              >Schedule an Appointment</Button>
             ) : (null)}
             </div>
           </div>
         </div>
         <div className='barbershop-modal__right-side'>
-          <table className='barbershop-modal__hours-table'>
-            <caption className='barbershop-modal__table-title' align="top">Hours</caption>
+          <p className='barbershop-modal__table-title'>Hours</p>
+          <Table className='barbershop-modal__hours-table'>
             <tbody>
               {props.barbershop.hours.map((dayHours, index) => {
                 const openTime = TimeHelper.format24hrs(dayHours.openTime, true)
@@ -88,9 +90,9 @@ const BarbershopModal = props => {
                 )
               })}
             </tbody>
-          </table>
-          <table className='barbershop-modal__services-table'>
-            <caption className='barbershop-modal__table-title' align="top">Services</caption>
+          </Table>
+          <p className='barbershop-modal__table-title barbershop-modal__services-table-title'>Services</p>
+          <Table className='barbershop-modal__services-table'>
             <tbody>
               {props.barbershop.services.map((service, index) => {
                 return (
@@ -103,10 +105,9 @@ const BarbershopModal = props => {
                 )
               })}
             </tbody>
-          </table>
+          </Table>
         </div>
       </section>
-      
     </Modal>
   )
 }

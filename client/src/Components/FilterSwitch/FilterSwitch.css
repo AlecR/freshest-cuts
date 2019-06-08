@@ -1,20 +1,6 @@
-.filter-switch__wrapper {
-  height: 40px;
-}
-
-.filter-switch:first-of-type {
-  border-radius: 5px 0 0 5px;
-  border-right: none;
-}
-
-.filter-switch:last-of-type {
-  border-radius: 0 5px 5px 0;
-  border-left: none;
-}
 
 .filter-switch {
-  border: 2px solid black;
-  background: white;
+  border: 2px solid black !important;
   font-size: 20px;
 }
 
