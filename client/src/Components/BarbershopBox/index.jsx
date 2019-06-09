@@ -71,7 +71,10 @@ const BarbershopBox = props => {
         {props.data.travelTime ? (
           <p className='barbershop-box__travel-distance'><FontAwesomeIcon icon={faCar} /> {props.data.travelDistance} miles away</p>
         ) : null}
-        <p className='barbershop-box__hours'><FontAwesomeIcon icon={faClock} /> {hoursText()}</p>
+        {props.data.hours ? (
+          <p className='barbershop-box__hours'><FontAwesomeIcon icon={faClock} /> {hoursText()}</p>
+        ) : null}
+        
       </div>
     </div>
   )

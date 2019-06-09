@@ -8,7 +8,6 @@ class Image extends Component {
   }
 
   handleError(backupSrc) {
-    console.log("Handling it!")
     this.setState({
       src: backupSrc
     })

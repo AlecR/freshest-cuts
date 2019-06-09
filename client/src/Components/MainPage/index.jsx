@@ -125,7 +125,6 @@ class MainPage extends Component {
             case this.filters.TRAVEL_DISTANCE:
               const maxDistance = this.state.filters.travelDistance
               barbershops = barbershops.filter(barbershop => {
-                console.log(barbershop)
                 return barbershop.travelDistance <= maxDistance
               })
               break
@@ -170,11 +169,16 @@ class MainPage extends Component {
       BarbershopHelper.getTravelTimes(lat, lon, ids, travelData => {
         const barbershopsWithTravelTimes = this.state.barbershops.map(barbershop => {
           const travelDataForBarbershop = travelData.find(t => t.id === barbershop.id)
-          return {
-            ...barbershop,
-            travelTime: travelDataForBarbershop.travelTime,
-            travelDistance: travelDataForBarbershop.travelDistance
+          if (travelDataForBarbershop !== undefined) {
+            return {
+              ...barbershop,
+              travelTime: travelDataForBarbershop.travelTime,
+              travelDistance: travelDataForBarbershop.travelDistance
+            }
+          } else {
+            return { ...barbershop }
           }
+          
         })
         this.setState(prevState => ({
           ...prevState,

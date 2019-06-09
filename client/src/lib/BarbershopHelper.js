@@ -20,7 +20,6 @@ const getBarbershops = callback => {
         services: [],
       }))
       BusinessHoursHelper.getHoursByBarbershopId(hours => {
-        console.log(hours)
         formattedBarbershops.forEach(barbershop => {
           barbershop.hours = hours[barbershop.id]
         })

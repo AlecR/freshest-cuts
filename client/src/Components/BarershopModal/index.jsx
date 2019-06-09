@@ -25,7 +25,6 @@ const BarbershopModal = props => {
   }
 
   let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-
   return (
     <Modal
       isOpen={props.isOpen}
@@ -70,42 +69,50 @@ const BarbershopModal = props => {
           </div>
         </div>
         <div className='barbershop-modal__right-side'>
-          <p className='barbershop-modal__table-title'>Hours</p>
-          <Table className='barbershop-modal__hours-table'>
-            <tbody>
-              {props.barbershop.hours.map((dayHours, index) => {
-                const openTime = TimeHelper.format24hrs(dayHours.openTime, true)
-                const closeTime = TimeHelper.format24hrs(dayHours.closeTime, true)
-                return (
-                  <tr
-                    key={`${days[index]}-hours`}
-                  > 
-                    <td className='barbershop-modal__hours-table-day'>{days[index]}</td>
-                    <td className='barbershop-modal__hours-table-hours'>
-                      {dayHours.open ? (
-                      `${openTime} - ${closeTime}`
-                      ) : 'Closed today'}
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </Table>
-          <p className='barbershop-modal__table-title barbershop-modal__services-table-title'>Services</p>
-          <Table className='barbershop-modal__services-table'>
-            <tbody>
-              {props.barbershop.services.map((service, index) => {
-                return (
-                  <tr
-                    key={`${service.name}-service`}
-                  > 
-                    <td className='barbershop-modal__services-table-name'>{service.name}</td>
-                    <td className='barbershop-modal__services-table-price'>${service.price}</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </Table>
+          {props.barbershop.hours !== undefined ? (
+            <div className='barbershop-modal__hours-table-wrapper'>
+              <p className='barbershop-modal__table-title'>Hours</p>
+              <Table className='barbershop-modal__hours-table'>
+                <tbody>
+                  {props.barbershop.hours.map((dayHours, index) => {
+                    const openTime = TimeHelper.format24hrs(dayHours.openTime, true)
+                    const closeTime = TimeHelper.format24hrs(dayHours.closeTime, true)
+                    return (
+                      <tr
+                        key={`${days[index]}-hours`}
+                      > 
+                        <td className='barbershop-modal__hours-table-day'>{days[index]}</td>
+                        <td className='barbershop-modal__hours-table-hours'>
+                          {dayHours.open ? (
+                          `${openTime} - ${closeTime}`
+                          ) : 'Closed today'}
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </Table>
+            </div>
+          ) : null}
+          {props.barbershop.services !== null && props.barbershop.services.length > 0 ? (
+            <div className='barbershop-modal__service-table-wrapper'>
+              <p className='barbershop-modal__table-title barbershop-modal__services-table-title'>Services</p>
+              <Table className='barbershop-modal__services-table'>
+                <tbody>
+                  {props.barbershop.services.map((service, index) => {
+                    return (
+                      <tr
+                        key={`${service.name}-service`}
+                      > 
+                        <td className='barbershop-modal__services-table-name'>{service.name}</td>
+                        <td className='barbershop-modal__services-table-price'>${service.price}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </Table>
+            </div>
+          ) : null}
         </div>
       </section>
     </Modal>
