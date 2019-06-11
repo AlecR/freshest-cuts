@@ -10,12 +10,20 @@ import { ButtonGroup, Button, FormControl, Form, Navbar } from 'react-bootstrap'
 
 class MainPage extends Component {
 
-  filters = {
+  Filters = {
     ACCEPTS_CREDIT: 'acceptsCredit',
     ONLINE_SCHEDULING: 'onlineScheduling',
     OPEN_TODAY: 'openToday',
     PRICE_LEVEL: 'priceLevel',
     TRAVEL_DISTANCE: 'travelDistance',
+  }
+
+  Sorts = {
+    NONE: 'none',
+    DISTANCE_CLOSEST: 'distanceClosest',
+    DISTANCE_FURTHEST: 'distanceFurthest',
+    PRICE_LEVEL_LOWEST: 'priceLevelLowest',
+    PRICE_LEVEL_HIGHEST: 'priceLevelHighest',
   }
 
   filterType = {
@@ -29,6 +37,7 @@ class MainPage extends Component {
     loadedBarbershops: false,
     filtering: false,
     searchBarInput: '',
+    sortByOption: null,
     filters: { 
       acceptsCredit: false,
       onlineScheduling: false,
@@ -42,17 +51,17 @@ class MainPage extends Component {
     {
       type: this.filterType.BUTTON,
       text: '💳 Accepts Credit / Debit',
-      filterPropertyName: this.filters.ACCEPTS_CREDIT
+      filterPropertyName: this.Filters.ACCEPTS_CREDIT
     },
     {
       type: this.filterType.BUTTON,  
       text: '👨🏼‍💻 Schedule Online',
-      filterPropertyName: this.filters.ONLINE_SCHEDULING
+      filterPropertyName: this.Filters.ONLINE_SCHEDULING
     },
     {
       type: this.filterType.BUTTON,
       text: '🗓 Open Today',
-      filterPropertyName: this.filters.OPEN_TODAY
+      filterPropertyName: this.Filters.OPEN_TODAY
     },
     {
       type: this.filterType.SWITCH,
@@ -71,7 +80,7 @@ class MainPage extends Component {
           value: 2,
         },
       ],
-      filterPropertyName: this.filters.PRICE_LEVEL
+      filterPropertyName: this.Filters.PRICE_LEVEL
     },
     {
       type: this.filterType.SWITCH,
@@ -90,9 +99,36 @@ class MainPage extends Component {
           value: 5
         },
       ],
-      filterPropertyName: this.filters.TRAVEL_DISTANCE
+      filterPropertyName: this.Filters.TRAVEL_DISTANCE
     }
   ]
+
+  sortBarbershops = barbershops => {
+    switch (this.state.sortByOption) {
+      case this.Sorts.DISTANCE_CLOSEST: 
+        barbershops = barbershops.sort((b1, b2) => {
+          return b1.travelDistance - b2.travelDistance
+        })
+        break;
+      case this.Sorts.DISTANCE_FURTHEST: 
+        barbershops = barbershops.sort((b1, b2) => {
+          return b2.travelDistance - b1.travelDistance
+        })
+        break;
+      case this.Sorts.PRICE_LEVEL_HIGHEST: 
+        barbershops = barbershops.sort((b1, b2) => {
+          return b2.priceLevel - b1.priceLevel
+        })
+        break;
+      case this.Sorts.PRICE_LEVEL_LOWEST: 
+        barbershops = barbershops.sort((b1, b2) => {
+          return b1.priceLevel - b2.priceLevel
+        })
+        break;
+      default: break;
+    }
+    return barbershops
+  }
 
   filterBarbershops = () => {
     let barbershops = this.state.barbershops
@@ -100,29 +136,29 @@ class MainPage extends Component {
     Object.keys(filters).forEach(filterKey => {
       if (filters[filterKey] !== false && filters[filterKey] !== null) {
         switch (filterKey) {
-          case this.filters.ACCEPTS_CREDIT:
+          case this.Filters.ACCEPTS_CREDIT:
             barbershops = barbershops.filter(barbershop => 
               barbershop.cashOnly === false
             )
             break
-          case this.filters.ONLINE_SCHEDULING:
+          case this.Filters.ONLINE_SCHEDULING:
             barbershops = barbershops.filter(barbershop => 
               barbershop.appointmentSchedulingAddress !== null  
             )
             break
-          case this.filters.OPEN_TODAY:
+          case this.Filters.OPEN_TODAY:
             barbershops = barbershops.filter(barbershop => {
               const todayIndex = new Date().getDay()
               return barbershop.hours[todayIndex].open
             })
             break
-            case this.filters.PRICE_LEVEL:
+            case this.Filters.PRICE_LEVEL:
               const filteringPriceLevel = this.state.filters.priceLevel
               barbershops = barbershops.filter(barbershop => {
                 return barbershop.priceLevel === filteringPriceLevel
               })
               break
-            case this.filters.TRAVEL_DISTANCE:
+            case this.Filters.TRAVEL_DISTANCE:
               const maxDistance = this.state.filters.travelDistance
               barbershops = barbershops.filter(barbershop => {
                 return barbershop.travelDistance <= maxDistance
@@ -147,7 +183,7 @@ class MainPage extends Component {
       const fuse = new Fuse(barbershops, options)
       barbershops = fuse.search(this.state.searchBarInput)
     }
-
+    this.sortBarbershops(barbershops)
     return barbershops;
   }
 
@@ -232,6 +268,15 @@ class MainPage extends Component {
     }))
   }
 
+  handleSortSelectChange = e => {
+    const optionValue = e.target.value
+    console.log(optionValue)
+    this.setState(prevState => ({
+      ...prevState,
+      sortByOption: optionValue
+    }))
+  }
+
   render() {
     const filteredBarbershops = this.filterBarbershops()
     return (
@@ -242,17 +287,6 @@ class MainPage extends Component {
             <Button variant="outline-primary">Contact Us</Button>
           </Form>
         </Navbar>
-        <section className='main-page__search'>
-          <Form className='main-page__search-bar-wrapper'>
-            <FormControl 
-              type='text'
-              className='main-page__search-bar'
-              placeholder='Search'
-              value={this.state.searchBarInput} 
-              onChange={e => this.handleSearchBarChange(e)}
-            />
-          </Form>
-        </section>
         <section className='main-page__content'>
           <div className='main-page__sidebar'>
             <p className='main-page__sidebar-title'>Filter Barbershops</p>
@@ -292,27 +326,51 @@ class MainPage extends Component {
             })}
             </ButtonGroup>
           </div>
-          <div className='main-page__barbershop-boxes-wrapper'>
-            {this.state.loadedBarbershops ? (
-              filteredBarbershops.length > 0 ? (
-                filteredBarbershops.map((barbershop, index) => (
-                  <BarbershopBox 
-                    key={`barbershop-${index}`}
-                    data={barbershop}
-                    didClickBarbershopBox={this.didSelectBarbershop}
-                  />
-                ))) : (
-                  <div className='main-page__no-results-wrapper'>
-                    <p className='main-page__no-results-icon'>🤷🏼‍♂️</p>
-                    <p className='main-page__no-results-text'>No barbershops match your search</p>
-                  </div>
-                )
-            ) : (
-              <div className='main-page__loading-indicator'>
-                <p className='main-page__loading-indicator-icon'>💈</p>
-                <p className='main-page__loading-indicator-text'>Loading Barbershops...</p>
-              </div>
-            )}
+          <div className='main-page__main-content-wrapper'>
+            <Form className='main-page__search-bar-wrapper'>
+              <FormControl 
+                type='text'
+                className='main-page__search-bar'
+                placeholder='Search'
+                value={this.state.searchBarInput} 
+                onChange={e => this.handleSearchBarChange(e)}
+              />
+              <FormControl
+                as='select'
+                className='main-page__sort-select'
+                placeholder='Search'
+                value={this.state.sortByOption} 
+                onChange={e => this.handleSortSelectChange(e)}
+              >
+                <option selected value={null}>Sort By...</option>
+                <option value={this.Sorts.DISTANCE_CLOSEST}>Distance (Closest)</option>
+                <option value={this.Sorts.DISTANCE_FURTHEST}>Distance (Furthest)</option>
+                <option value={this.Sorts.PRICE_LEVEL_LOWEST}>Cost (Cheapest)</option>
+                <option value={this.Sorts.PRICE_LEVEL_HIGHEST}>Cost (Most Expensive)</option>
+              </FormControl>
+            </Form>
+            <div className='main-page__barbershop-boxes-wrapper'>
+              {this.state.loadedBarbershops ? (
+                filteredBarbershops.length > 0 ? (
+                  filteredBarbershops.map((barbershop, index) => (
+                    <BarbershopBox 
+                      key={`barbershop-${index}`}
+                      data={barbershop}
+                      didClickBarbershopBox={this.didSelectBarbershop}
+                    />
+                  ))) : (
+                    <div className='main-page__no-results-wrapper'>
+                      <p className='main-page__no-results-icon'>🤷🏼‍♂️</p>
+                      <p className='main-page__no-results-text'>No barbershops match your search</p>
+                    </div>
+                  )
+              ) : (
+                <div className='main-page__loading-indicator'>
+                  <p className='main-page__loading-indicator-icon'>💈</p>
+                  <p className='main-page__loading-indicator-text'>Loading Barbershops...</p>
+                </div>
+              )}
+            </div>
           </div>
           {this.state.selectedBarbershop ? (
             <BarbershopModal 

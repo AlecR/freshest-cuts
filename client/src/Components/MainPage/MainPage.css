@@ -1,14 +1,22 @@
 .main-page__wrapper {
   display: grid;
-  grid-template-rows: 70px 50px auto;
+  grid-template-rows: 70px auto;
   height: 100vh;
+}
+
+.main-page__main-content-wrapper {
+  display: grid;
+  grid-template-rows: 50px auto;
+  overflow: scroll;
 }
 
 .main-page__search-bar-wrapper {
   width: 95%;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 80% 20%;
+  padding: 5px;
 }
-
 .main-page__content {
   display: grid;
   grid-template-columns: 300px auto;
