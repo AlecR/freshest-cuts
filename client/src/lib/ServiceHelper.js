@@ -1,7 +1,7 @@
 import { SERVER_ADDRESS } from './Constants'
 
 const getServices = callback => {
-  const requestUrl = `${SERVER_ADDRESS}/services`
+  const requestUrl = `${SERVER_ADDRESS}/api/services`
   fetch(requestUrl).then(response => {
     return response.json()
   }).then(services => {

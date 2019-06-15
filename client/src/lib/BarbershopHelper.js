@@ -3,7 +3,7 @@ import ServiceHelper from './ServiceHelper'
 import BusinessHoursHelper from './BusinessHoursHelper'
 
 const getBarbershops = callback => {
-  const requestUrl = `${SERVER_ADDRESS}/barbershops`
+  const requestUrl = `${SERVER_ADDRESS}/api/barbershops`
   fetch(requestUrl).then(response => {
     return response.json()
   }).then(barbershops => {
@@ -19,7 +19,7 @@ const getBarbershops = callback => {
         priceLevel: barbershop.price_level,
         services: [],
       }))
-      BusinessHoursHelper.getHoursByBarbershopId(hours => {
+      BusinessHoursHelper.getHoursForAllBarebershopsById(hours => {
         formattedBarbershops.forEach(barbershop => {
           barbershop.hours = hours[barbershop.id]
         })
@@ -42,8 +42,20 @@ const getBarbershops = callback => {
   })
 }
 
+const getBarbershopById = (id, callback) => {
+  const requestUrl = `${SERVER_ADDRESS}/api/barbershops/${id}`
+  fetch(requestUrl).then(response => {
+    return response.json()
+  }).then(barbershop => {
+    // Create barbershop object
+  }).catch(error => {
+    console.log(error)
+    callback({})
+  })
+}
+
 const getTravelTimes = (lat, lon, ids, callback) => {
-  const requestUrl = `${SERVER_ADDRESS}/barbershops/distance?lat=${lat}&lon=${lon}&barbershopIds=${ids}`
+  const requestUrl = `${SERVER_ADDRESS}/api/barbershops/distance?lat=${lat}&lon=${lon}&barbershopIds=${ids}`
   fetch(requestUrl).then(response => {
     return response.json()
   }).then(json => {

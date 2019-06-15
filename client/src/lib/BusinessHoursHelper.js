@@ -1,7 +1,7 @@
 import { SERVER_ADDRESS } from './Constants'
 
 const getHours = callback => {
-  const requestUrl = `${SERVER_ADDRESS}/hours`
+  const requestUrl = `${SERVER_ADDRESS}/api/hours`
   fetch(requestUrl).then(response => {
     return response.json()
   }).then(hours => {
@@ -12,7 +12,7 @@ const getHours = callback => {
   })
 }
 
-const getHoursByBarbershopId = callback => {
+const getHoursForAllBarebershopsById = callback => {
   getHours(hours => {
     const hoursByBarbershopId = {}
     hours.forEach(singleDayHours => {
@@ -27,8 +27,20 @@ const getHoursByBarbershopId = callback => {
   })
 }
 
+const getHoursForBarbershop = (id, callback) => {
+  const requestUrl = `${SERVER_ADDRESS}/api/hours/${id}`
+  fetch(requestUrl).then(response => {
+    return response.json()
+  }).then(hours => {
+    callback(hours)
+  }).catch(error => {
+    console.log(error)
+    callback({})
+  })
+}
+
 const deleteHoursById = (id, callback) => {
-  const requestUrl = `${SERVER_ADDRESS}/hours?id=${id}`
+  const requestUrl = `${SERVER_ADDRESS}/api/hours?id=${id}`
   fetch(requestUrl, {
     method: 'DELETE',
   }).then(response => {
@@ -43,4 +55,4 @@ const deleteHoursById = (id, callback) => {
 
 
 
-export default { getHours, getHoursByBarbershopId, deleteHoursById }
+export default { getHours, getHoursForAllBarebershopsById, deleteHoursById, getHoursForBarbershop }

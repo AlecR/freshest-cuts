@@ -49,7 +49,7 @@ class AdminBarbershopHoursEditor extends Component {
       openTime,
       closeTime
     }
-    const requestUrl = `${SERVER_ADDRESS}/hours`
+    const requestUrl = `${SERVER_ADDRESS}/api/hours`
     fetch(requestUrl, {
       method: 'POST',
       headers: {

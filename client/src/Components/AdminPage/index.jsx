@@ -180,7 +180,7 @@ class AdminPage extends Component {
   handleNewBarbershopFormSubmit = e => {
     e.preventDefault()
     const formData = this.parseFormData(e)
-    const requestUrl = `${SERVER_ADDRESS}/barbershops`
+    const requestUrl = `${SERVER_ADDRESS}/api/barbershops`
     fetch(requestUrl, {
       method: 'POST',
       headers: {
@@ -214,7 +214,7 @@ class AdminPage extends Component {
   handleNewServiceFormSubmit = e => {
     e.preventDefault()
     const formData = this.parseFormData(e)
-    const requestUrl = `${SERVER_ADDRESS}/services`
+    const requestUrl = `${SERVER_ADDRESS}/api/services`
     fetch(requestUrl, {
       method: 'POST',
       headers: {
