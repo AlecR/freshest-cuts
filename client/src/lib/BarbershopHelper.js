@@ -2,23 +2,29 @@ import { SERVER_ADDRESS } from './Constants'
 import ServiceHelper from './ServiceHelper'
 import BusinessHoursHelper from './BusinessHoursHelper'
 
+const formatBarbershopFromDatabase = barbershopData => {
+  return {
+    id: barbershopData.id,
+    name: barbershopData.name,
+    address: barbershopData.address,
+    phoneNumber: barbershopData.phone_number,
+    websiteAddress: barbershopData.website_address,
+    appointmentSchedulingAddress: barbershopData.appointment_scheduling_address,
+    cashOnly: barbershopData.cash_only,
+    priceLevel: barbershopData.price_level,
+    services: [],
+  }
+}
+
 const getBarbershops = callback => {
   const requestUrl = `${SERVER_ADDRESS}/api/barbershops`
   fetch(requestUrl).then(response => {
     return response.json()
   }).then(barbershops => {
     if (barbershops.length > 0) {
-      const formattedBarbershops = barbershops.map(barbershop => ({
-        id: barbershop.id,
-        name: barbershop.name,
-        address: barbershop.address,
-        phoneNumber: barbershop.phone_number,
-        websiteAddress: barbershop.website_address,
-        appointmentSchedulingAddress: barbershop.appointment_scheduling_address,
-        cashOnly: barbershop.cash_only,
-        priceLevel: barbershop.price_level,
-        services: [],
-      }))
+      const formattedBarbershops = barbershops.map(barbershop => {
+        return formatBarbershopFromDatabase(barbershop)
+      })
       BusinessHoursHelper.getHoursForAllBarebershopsById(hours => {
         formattedBarbershops.forEach(barbershop => {
           barbershop.hours = hours[barbershop.id]
@@ -43,11 +49,21 @@ const getBarbershops = callback => {
 }
 
 const getBarbershopById = (id, callback) => {
-  const requestUrl = `${SERVER_ADDRESS}/api/barbershops/${id}`
+  const requestUrl = `${SERVER_ADDRESS}/api/barbershops?barbershopId=${id}`
   fetch(requestUrl).then(response => {
     return response.json()
-  }).then(barbershop => {
-    // Create barbershop object
+  }).then(barbershopData => {
+    if (barbershopData.length < 1) {
+      callback(null)
+    }
+    const barbershop = formatBarbershopFromDatabase(barbershopData[0])
+    BusinessHoursHelper.getHoursForBarbershop(id, hours => {
+      barbershop.hours = hours
+      ServiceHelper.getServicesForBarbershop(id, services => {
+        barbershop.services = services
+        callback(barbershop)
+      })
+    })
   }).catch(error => {
     console.log(error)
     callback({})
@@ -63,4 +79,4 @@ const getTravelTimes = (lat, lon, ids, callback) => {
   })
 }
 
-export default { getBarbershops, getTravelTimes }
+export default { getBarbershops, getBarbershopById, getTravelTimes }

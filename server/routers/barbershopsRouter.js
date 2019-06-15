@@ -6,13 +6,16 @@ const router = express.Router();
 const logger = new Logger('💈');
 
 router.get('/', (req, res) => {
-  const barbershopQuery = 'select * from barbershops'
+  let barbershopQuery = 'select * from barbershops'
+  if (req.query.barbershopId) {
+    barbershopQuery += ` WHERE id = ${req.query.barbershopId}` 
+  }
   db.query(barbershopQuery, (error, result) => {
     if (error) {
       logger.error(error)
       res.send({ error })
     } else {
-      logger.success('/barbershops')
+      logger.success(`GET ${req.originalUrl}`)
       res.send(result.rows)
     }
   })
@@ -28,10 +31,10 @@ router.post('/', (req, res) => {
     ('${name}', '${address}',  '${website_address}', '${apppointment_scheduling_address}', ${cash_only}, ${price_level});`
   db.query(barbershopQuery, (error, result) => {
     if (error) {
-      logger.error(`/barbershops: ${error}`)
+      logger.error(`POST ${req.originalUrl}: ${error}`)
       res.send({ error })
     } else {
-      logger.success('/barbershops')
+      logger.success(`POST ${req.originalUrl}`)
       res.send(result) 
     }
   })
@@ -76,27 +79,12 @@ router.get('/distance', (req, res) => {
             travelTime,
           }
         })
-        logger.success('GET /barbershops/distance')
+        logger.success(`GET ${req.originalUrl}`)
         res.send(result)
       }).catch(err => {
-        logger.error(`GET /barbershops/distance: ${err}`)
+        logger.error(`GET ${req.originalUrl}: ${err}`)
         res.send(err)
       })
-    }
-  })
-})
-
-router.get('/:id', (req, res) => {
-  const barbershopId = req.params.id
-  const barbershopQuery = `select * from barbershops WHERE id = ${req.params.id}`
-  db.query(barbershopQuery, (error, result) => {
-    if (error) {
-      logger.error(`GET /barbershops/${barbershopId}: ${error}`)
-      logger.error(`Failing query: ${barbershopQuery}`)
-      res.send({ error })
-    } else {
-      logger.success(`GET /barbershops/${barbershopId}`)
-      res.send(result.rows)
     }
   })
 })

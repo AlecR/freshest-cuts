@@ -7,6 +7,7 @@ import FilterButton from '../FilterButton'
 import FilterSwitch from '../FilterSwitch'
 import Fuse from 'fuse.js'
 import { ButtonGroup, Button, FormControl, Form, Navbar } from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
 
 class MainPage extends Component {
 
@@ -270,7 +271,6 @@ class MainPage extends Component {
 
   handleSortSelectChange = e => {
     const optionValue = e.target.value
-    console.log(optionValue)
     this.setState(prevState => ({
       ...prevState,
       sortByOption: optionValue
@@ -279,10 +279,16 @@ class MainPage extends Component {
 
   render() {
     const filteredBarbershops = this.filterBarbershops()
+
+    if (this.state.selectedBarbershop) {
+      const barbershopId = this.state.selectedBarbershop.id
+      return (<Redirect to={`/barbershops/${barbershopId}`} />)
+    }
+
     return (
       <div className="main-page__wrapper">
         <Navbar className='main-page__header justify-content-between'>
-          <Navbar.Brand>💈 Freshest Cuts</Navbar.Brand>
+          <Navbar.Brand><span role='img' aria-label='barber-pole'>💈</span> Freshest Cuts</Navbar.Brand>
           <Form inline>
             <Button variant="outline-primary">Contact Us</Button>
           </Form>
@@ -360,13 +366,17 @@ class MainPage extends Component {
                     />
                   ))) : (
                     <div className='main-page__no-results-wrapper'>
-                      <p className='main-page__no-results-icon'>🤷🏼‍♂️</p>
+                      <p className='main-page__no-results-icon'>
+                      <span role='img' aria-label='shrugging-person'>🤷🏼‍♂️</span>
+                      </p>
                       <p className='main-page__no-results-text'>No barbershops match your search</p>
                     </div>
                   )
               ) : (
                 <div className='main-page__loading-indicator'>
-                  <p className='main-page__loading-indicator-icon'>💈</p>
+                  <p className='main-page__loading-indicator-icon'>
+                    <span role='img' aria-label='barber-pole'>💈</span>
+                  </p>
                   <p className='main-page__loading-indicator-text'>Loading Barbershops...</p>
                 </div>
               )}

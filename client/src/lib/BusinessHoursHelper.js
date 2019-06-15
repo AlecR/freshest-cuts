@@ -28,7 +28,7 @@ const getHoursForAllBarebershopsById = callback => {
 }
 
 const getHoursForBarbershop = (id, callback) => {
-  const requestUrl = `${SERVER_ADDRESS}/api/hours/${id}`
+  const requestUrl = `${SERVER_ADDRESS}/api/hours?barbershopId=${id}`
   fetch(requestUrl).then(response => {
     return response.json()
   }).then(hours => {
@@ -40,7 +40,7 @@ const getHoursForBarbershop = (id, callback) => {
 }
 
 const deleteHoursById = (id, callback) => {
-  const requestUrl = `${SERVER_ADDRESS}/api/hours?id=${id}`
+  const requestUrl = `${SERVER_ADDRESS}/api/hours?barbershopId=${id}`
   fetch(requestUrl, {
     method: 'DELETE',
   }).then(response => {
@@ -52,7 +52,5 @@ const deleteHoursById = (id, callback) => {
     callback({ error })
   })
 }
-
-
 
 export default { getHours, getHoursForAllBarebershopsById, deleteHoursById, getHoursForBarbershop }

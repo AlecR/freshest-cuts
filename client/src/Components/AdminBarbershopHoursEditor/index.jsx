@@ -59,7 +59,6 @@ class AdminBarbershopHoursEditor extends Component {
     }).then(response => {
       return response.json()
     }).then(json => {
-      console.log(json)
       this.props.updateHoursTable()
     })
   
@@ -91,7 +90,7 @@ class AdminBarbershopHoursEditor extends Component {
             <option value={barbershop.id} key={`${barbershop.name}-option`}>{barbershop.name}</option>
           ))}
         </select>
-        <p>🚨 Unable to fetch barbershop information</p> 
+        <p><span role='img' aria-label='red-siren'>🚨</span> Unable to fetch barbershop information</p> 
       </div>
     )}
 

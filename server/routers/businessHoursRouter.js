@@ -5,10 +5,13 @@ const router = express.Router();
 const logger = new Logger('⏰');
 
 router.get('/', (req, res) => {
-  const barbershopQuery = 'select * from business_hours'
+  let barbershopQuery = 'SELECT * FROM business_hours'
+  if (req.query.barbershopId) {
+    barbershopQuery += ` WHERE barbershop_id = ${req.query.barbershopId}`
+  }
   db.query(barbershopQuery, (error, result) => {
     if (error) {
-      logger.error(`GET /hours/: ${error}`)
+      logger.error(`GET ${req.originalUrl}: ${error}`)
       res.send({ error })
     } else {
       if (result.rows.length < 1) {
@@ -23,7 +26,7 @@ router.get('/', (req, res) => {
         openTime: hoursRow.open_time,
         closeTime: hoursRow.close_time
       }))
-      logger.success('GET /hours/')
+      logger.success(`GET ${req.originalUrl}`)
       res.send(formattedHours)
     }
   })
@@ -45,10 +48,10 @@ router.post('/', (req, res) => {
     ('${barbershopId}',  ${day}, '${open}', ${openTime}, ${closeTime});`
   db.query(hoursQuery, (error, result) => {
     if (error) {
-      logger.error(`POST /hours/: ${error}`)
+      logger.error(`POST ${req.originalUrl}: ${error}`)
       res.send({ error })
     } else {
-      logger.success('POST /hours/')
+      logger.success(`POST ${req.originalUrl}`)
       res.send(result)
     }
   })
@@ -59,10 +62,10 @@ router.delete('/hours', (req, res) => {
   const hoursQuery = `DELETE FROM business_hours WHERE id = ${id};`
   db.query(hoursQuery, (error, result) => {
     if (error) {
-      logger.error(`DELETE /hours/: ${error}`)
+      logger.error(`DELETE ${req.originalUrl}: ${error}`)
       res.send({ error })
     } else {
-      logger.success(`DELETE /hours/`)
+      logger.success(`DELETE ${req.originalUrl}`)
       res.send(result)
     }
   })

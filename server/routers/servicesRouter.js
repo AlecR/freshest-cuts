@@ -4,20 +4,24 @@ const Logger = require('../lib/Logger');
 const router = express.Router();
 const logger = new Logger('💇🏼‍♂️');
 
-router.get('/services', (req, res) => {
-  const servicesQuery = 'select * from services'
+router.get('/', (req, res) => {
+  let servicesQuery = 'select * from services'
+  if (req.query.barbershopId) {
+    servicesQuery += ` WHERE barbershop_id = ${req.query.barbershopId}`
+  }
   db.query(servicesQuery, (error, result) => {
     if (error) {
-      logger.error(`GET /services/: ${error}`)
+      logger.error(`GET ${req.originalUrl}: ${error}`)
+      logger.error(`Query: ${servicesQuery}`)
       res.send({ error })
     } else {
-      logger.success(`GET /services/`)
+      logger.success(`GET ${req.originalUrl}`)
       res.send(result.rows)
     }
   })
 })
 
-router.post('/services', (req, res) => {
+router.post('/', (req, res) => {
   const {barbershop_id, name, description, price} = req.body.formData
   const hoursQuery = `
     INSERT INTO services 
@@ -26,10 +30,10 @@ router.post('/services', (req, res) => {
     (${barbershop_id},  '${name}', '${description}', '${price}');`
   db.query(hoursQuery, (error, result) => {
     if (error) {
-      logger.error(`POST /services/: ${error}`)
+      logger.error(`POST ${req.originalUrl}: ${error}`)
       res.send({ error })
     } else {
-      logger.success(`POST /services/`)
+      logger.success(`POST ${req.originalUrl}`)
       res.send(result)
     }
   })

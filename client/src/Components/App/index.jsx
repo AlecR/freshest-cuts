@@ -4,7 +4,6 @@ import './App.css'
 import MainPage from '../MainPage'
 import AdminPage from '../AdminPage'
 import BarbershopPage from '../BarbershopPage';
-import BarbershopHelper from '../../lib/BarbershopHelper';
 
 class App extends Component {
   render() {
@@ -19,11 +18,11 @@ class App extends Component {
           )}/>
           <Route path='/barbershops/:barbershopId' exact render={props => {
             const barbershopId = props.match.params.barbershopId
-            BarbershopHelper.getBarbershopById(barbershopId, barbershop => (
+            return (
               <BarbershopPage 
-                barbershop={barbershop}
+                barbershopId={barbershopId}
               />
-            ))
+            )
           }}/>
         </Router>
       </div>
