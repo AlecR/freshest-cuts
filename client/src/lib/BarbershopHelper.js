@@ -7,6 +7,8 @@ const formatBarbershopFromDatabase = barbershopData => {
     id: barbershopData.id,
     name: barbershopData.name,
     address: barbershopData.address,
+    latitude: barbershopData.latitude,
+    longitude: barbershopData.longitude,
     phoneNumber: barbershopData.phone_number,
     websiteAddress: barbershopData.website_address,
     appointmentSchedulingAddress: barbershopData.appointment_scheduling_address,

@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     } else {
       if (result.rows.length < 1) {
         logger.success('/hours/')
-        res.send([])
+        return res.send([])
       }
       const formattedHours = result.rows.map(hoursRow => ({
         id: hoursRow.id,

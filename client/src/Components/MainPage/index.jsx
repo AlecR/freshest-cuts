@@ -287,12 +287,6 @@ class MainPage extends Component {
 
     return (
       <div className="main-page__wrapper">
-        <Navbar className='main-page__header justify-content-between'>
-          <Navbar.Brand><span role='img' aria-label='barber-pole'>💈</span> Freshest Cuts</Navbar.Brand>
-          <Form inline>
-            <Button variant="outline-primary">Contact Us</Button>
-          </Form>
-        </Navbar>
         <section className='main-page__content'>
           <div className='main-page__sidebar'>
             <p className='main-page__sidebar-title'>Filter Barbershops</p>

@@ -41,6 +41,7 @@ router.post('/', (req, res) => {
 })
 
 router.get('/distance', (req, res) => {
+  // TODO: Reset this key and hide the new one before deplyoing to prod
   const key = 'AIzaSyBSZp93QBZgVxXWSkMZiJpGGFyu1H4VOZk'
   const lat = req.query.lat
   const lon = req.query.lon

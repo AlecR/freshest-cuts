@@ -4,11 +4,18 @@ import './App.css'
 import MainPage from '../MainPage'
 import AdminPage from '../AdminPage'
 import BarbershopPage from '../BarbershopPage';
+import { Navbar, Form, Button } from 'react-bootstrap';
 
 class App extends Component {
   render() {
     return ( 
       <div className='app-wrapper'>
+        <Navbar className='app__navbar justify-content-between'>
+          <Navbar.Brand href='/'><span role='img' aria-label='barber-pole'>💈</span> Freshest Cuts</Navbar.Brand>
+          <Form inline>
+            <Button variant="outline-primary">Contact Us</Button>
+          </Form>
+        </Navbar>
         <Router>
           <Route path='/' exact render={() => (
             <MainPage />

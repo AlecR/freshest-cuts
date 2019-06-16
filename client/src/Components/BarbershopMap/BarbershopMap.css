@@ -1,0 +1,12 @@
+/* Add custom module styles here */
+.barbershop-map__wrapper {
+  display: block;
+  height: 250px;
+}
+
+.barbershop-map__map-pin-image {
+  height: 70px;
+  position: relative;
+  top: -70px;
+  left: -35px;
+}
