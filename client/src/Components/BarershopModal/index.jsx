@@ -2,8 +2,8 @@ import React from 'react';
 import './BarbershopModal.css';
 import Modal from 'react-modal'
 import Image from '../Image'
-import TimeHelper from '../../lib/TimeHelper'
-import { Button, Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap'
+import { formatTimeTo12Hours } from '../../lib/FormattingUtil'
 
 const BarbershopModal = props => {
   const customStyles = {
@@ -75,8 +75,8 @@ const BarbershopModal = props => {
               <Table className='barbershop-modal__hours-table'>
                 <tbody>
                   {props.barbershop.hours.map((dayHours, index) => {
-                    const openTime = TimeHelper.format24hrs(dayHours.openTime, true)
-                    const closeTime = TimeHelper.format24hrs(dayHours.closeTime, true)
+                    const openTime = formatTimeTo12Hours(dayHours.openTime, true)
+                    const closeTime = formatTimeTo12Hours(dayHours.closeTime, true)
                     return (
                       <tr
                         key={`${days[index]}-hours`}

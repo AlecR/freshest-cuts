@@ -18,6 +18,32 @@ const formatBarbershopFromDatabase = barbershopData => {
   }
 }
 
+const isOpen = (hours) => {
+  const d = new Date()
+  const currentHour = d.getHours()
+  const currentMinutes =  d.getMinutes()
+  const currentDay = d.getDay()
+
+  const hoursToday = hours[currentDay]
+  if (!hoursToday.open) {
+    return false
+  } else {
+    const openTimeSplit = hoursToday.openTime.split(':')
+    const openTimeHour = openTimeSplit[0]
+    const openTimeMinutes = openTimeSplit[1]
+
+    const closeTimeSplit = hoursToday.closeTime.split(':')
+    const closeTimeHour = closeTimeSplit[0]
+    const closeTimeMinutes = closeTimeSplit[1]
+
+    const openMins = (openTimeHour * 60) + openTimeMinutes
+    const closeMins = (closeTimeHour * 60) + closeTimeMinutes
+    const currentTimeMins = (currentHour * 60) + currentMinutes
+
+    return currentTimeMins >= openMins && currentTimeMins <= closeMins
+  }
+}
+
 const getBarbershops = callback => {
   const requestUrl = `${SERVER_ADDRESS}/api/barbershops`
   fetch(requestUrl).then(response => {
@@ -30,6 +56,7 @@ const getBarbershops = callback => {
       BusinessHoursHelper.getHoursForAllBarebershopsById(hours => {
         formattedBarbershops.forEach(barbershop => {
           barbershop.hours = hours[barbershop.id]
+          barbershop.isOpen = isOpen(hours[barbershop.id])
         })
         ServiceHelper.getServices(services => {
           services.forEach(service => {
@@ -61,6 +88,7 @@ const getBarbershopById = (id, callback) => {
     const barbershop = formatBarbershopFromDatabase(barbershopData[0])
     BusinessHoursHelper.getHoursForBarbershop(id, hours => {
       barbershop.hours = hours
+      barbershop.isOpen = isOpen(hours)
       ServiceHelper.getServicesForBarbershop(id, services => {
         barbershop.services = services
         callback(barbershop)

@@ -6,7 +6,7 @@ import BarbershopHelper from '../../lib/BarbershopHelper'
 import FilterButton from '../FilterButton'
 import FilterSwitch from '../FilterSwitch'
 import Fuse from 'fuse.js'
-import { ButtonGroup, Button, FormControl, Form, Navbar } from 'react-bootstrap'
+import { ButtonGroup, FormControl, Form } from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
 
 class MainPage extends Component {

@@ -1,5 +1,8 @@
+export const formatPhoneNumber = phoneNumber => {
+  return phoneNumber.substr(0,3) + '-' + phoneNumber.substr(3,3) + '-' +  phoneNumber.substr(6,4)
+}
 
-const format24hrs = (time, hideMinutesIfZero = false) => {
+export const formatTimeTo12Hours = (time, hideMinutesIfZero = false) => {
   // Check correct time format and split into components
   if (time === null) return;
   const splitTime = time.split(':')
@@ -17,5 +20,3 @@ const format24hrs = (time, hideMinutesIfZero = false) => {
 
   return `${hours}:${mins} ${amPm}`
 }
-
-export default { format24hrs }

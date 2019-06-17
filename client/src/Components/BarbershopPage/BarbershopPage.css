@@ -4,8 +4,8 @@
   height: 100%;
   width: 100%;
   display: grid;
-  grid-template-columns: 100px 1fr 1fr 1fr 1fr 1fr 100px;
-  grid-template-rows: 50px 1fr 1fr 1fr 1fr 1fr 50px;
+  grid-template-columns: 200px 1fr 1fr 1fr 1fr 1fr 200px;
+  grid-template-rows: 350px 1fr 1fr 1fr 1fr 1fr 50px;
 }
 
 .barbershop-page__loading-wrapper {
@@ -39,15 +39,33 @@
 
 .barbershop-page__top-row {
   grid-column: -1 / 1;
+  background-color: rgba(128, 128, 128, 0.61);
   grid-row: 1;
   display: flex;
   align-items: center;
 }
 
+.barbershop-page__top-row-box {
+  background-color: white;
+  position: relative;
+  left: 200px;
+  height: 200px;
+  width: 400px;
+}
+
 .barbershop-page__name {
+  width: 100%;
   font-size: 25px;
-  margin: 0 0 0 15px;
+  margin-left: 10px;
   padding: 0;
+}
+
+.barbershop-page__open-indicator-icon--green {
+  color: green;
+}
+
+.barbershop-page__open-indicator-icon--red {
+  color: red;
 }
 
 .barbershop-page__location-text {
@@ -74,5 +92,23 @@
 }
 
 .barbershop-page__hours-table-row-today {
+  background-color: rgba(173, 238, 182, 0.411);
+}
+
+.barbershop-page__services-wrapper {
+  border: 1px solid black;
+  border-radius: 15px;
+  grid-column: 2 / 4;
+  grid-row: 3 / 4;
+}
+
+.barbershop-page__services-table-title {
+  text-align: center;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.barbershop-page__services-table-row-today {
   background-color: rgba(173, 238, 182, 0.411);
 }

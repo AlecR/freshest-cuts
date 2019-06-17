@@ -1,18 +1,18 @@
 import React from 'react'
 import './BarbershopBox.css'
 import Image from '../Image'
-import TimeHelper from '../../lib/TimeHelper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCar, faPhone } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
+import { formatPhoneNumber, formatTimeTo12Hours } from '../../lib/FormattingUtil'
 
 const BarbershopBox = props => {
   const hoursText = () => {
     const dayOfWeek = new Date().getDay()
     const hours = props.data.hours
     const todayHours = hours[dayOfWeek]
-    const openTime = TimeHelper.format24hrs(todayHours.openTime, true)
-    const closeTime = TimeHelper.format24hrs(todayHours.closeTime, true)
+    const openTime = formatTimeTo12Hours(todayHours.openTime, true)
+    const closeTime = formatTimeTo12Hours(todayHours.closeTime, true)
     if (todayHours.open === false) {
       return 'Closed'
     } else {
@@ -22,7 +22,7 @@ const BarbershopBox = props => {
 
   let phoneNumber = null
   if (props.data.phoneNumber) {
-    phoneNumber =  props.data.phoneNumber.substr(0,3) + '-' + props.data.phoneNumber.substr(3,3) + '-' +  props.data.phoneNumber.substr(6,4)
+    phoneNumber =  formatPhoneNumber(props.data.phoneNumber)
   }
 
   const dollarSignsForPriceLevel = () => {
